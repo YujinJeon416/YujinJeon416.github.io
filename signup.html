@@ -317,15 +317,14 @@
         //아이디의 길이는 4~12글자사이
 
         console.log(id);
+        console.log(/^[a-z]/.test(id) && /^.{4,12}$/.test(id) && /\d/.test(id));
         if (
-          localStorage.getItem(
-            $(/^[a-z]/.test(id) && /^.{4,12}$/.test(id) && /\d/.test(id))
-          ) == false
+          (/^[a-z]/.test(id) && /^.{4,12}$/.test(id) && /\d/.test(id)) == false
         ) {
           alert(
             "첫 글자는 반드시 영소문자로 이뤄지고, 숫자가 하나이상 포함된 4~12글자 여야합니다."
           );
-          return;
+          return false;
         }
 
         //2.비밀번호 확인 검사
@@ -336,14 +335,10 @@
         //특수문자 반드시 포함  /[\*!&]/
         console.log(pw);
         if (
-          localStorage.getItem(
-            $(
-              /^.{8,15}$/.test(pw) &&
+          (/^.{8,15}$/.test(pw) &&
                 /\d/.test(pw) &&
                 /[a-zA-Z]/.test(pw) &&
-                /[\@#$%^&*()]/
-            )
-          ) == false
+                /[\@#!$%^&*()]/.test(pw)) == false
         ) {
           alert("비밀번호는 8~15자리 숫자/문자/특수문자를 포함해야합니다..");
           return;
@@ -355,7 +350,7 @@
         console.log(nm);
         if (/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/.test(nm) == false) {
           alert("한글2글자이상 입력하세요.");
-          return;
+          return false;
         }
 
         //4.이메일 검사
@@ -364,7 +359,7 @@
         console.log(email);
         if (/^[\w]{4,}@[\w]+(\.[\w]+){1,3}$/.test(email) == false) {
           alert("이메일 형식에 어긋납니다.");
-          return;
+          return false;
         }
 
         // localStorage 값 입력
@@ -388,7 +383,7 @@
         localStorage.setItem("entries", jsonEntries);
         $(".inputArea").val("");
         alert("회원가입이 완료 되었습니다.");
-        changeForm2();
+      
       }
 
       /**
