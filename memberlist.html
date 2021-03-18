@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>signup check</title>
+    <script src="./assets/js/jquery-3.6.0.js"></script>
+    <style>
+      body {
+        font-family: "Noto Sans KR", "Roboto", "Montserrat", sans-serif;
+      }
+      @font-face {
+        font-family: "S-CoreDream-2ExtraLight";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-2ExtraLight.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+      .h2 {
+        font-family: "Montserrat", sans-serif; /*font-family 속성은 선택된 요소에 우선 순위가 지정된 font family 이름과 generic family 이름을 지정*/
+        font-weight: bold;
+        color: #fff;
+        font-size: 7rem; /*최상위 태그(요소)에 지정한 것을 기준으로*/
+        text-align: end;
+      }
+
+      .h2_em {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        color: #fff;
+        font-size: 7rem;
+        font-style: normal;
+        -webkit-text-fill-color: transparent; /*글씨 안 투명하게*/
+        -webkit-text-stroke: 1px #fff; /*테두리는 흰색*/
+        display: block;
+        line-height: 0.3;
+        text-align: end;
+      }
+
+      p {
+        color: #fff;
+        margin-top: 30px;
+        font-size: 20px;
+        letter-spacing: 2px;
+        font-family: "S-CoreDream-2ExtraLight";
+        font-weight: bold;
+        color: #ffd600;
+      }
+      body {
+        background: url("./assets/img/bl_bg.png");
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(6, 200px);
+        grid-template-areas:
+          "banner banner banner"
+          ". login ."
+          "footer footer footer";
+        gap: 0px;
+        font-family: "Montserrat", sans-serif;
+        overflow-x: hidden;
+      }
+      #tbl-entry {
+        top: 200px;
+        width: 500px;
+        height: 300px;
+        border: 1px solid #ffd600;
+        border-collapse: collapse;
+        margin: 300px 0;
+        color: #ffd600;
+        align-content: center;
+        font-family: "S-CoreDream-2ExtraLight";
+      }
+      #tbl-entry th,
+      #tbl-entry td {
+        border: 1px solid #ffd600;
+        padding: 5px;
+        color: #ffd600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <h2 class="h2"><em class="h2_em">MEMBER</em>LIST</h2>
+    </div>
+    <table id="tbl-entry"></table>
+
+    <footer></footer>
+
+    <script>
+      showEntries();
+
+      /**
+       * localStorage.entries를 가져와서 table태그로 작성
+       */
+      function showEntries() {
+        //localStorage.entries || []
+        var entries = JSON.parse(localStorage.getItem("entries")) || [];
+
+        var $table = $("#tbl-entry");
+
+        //header 추가
+        $table.html(
+          "<tr><th>No</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>이메일</th></tr>"
+        );
+
+        if (entries.length) {
+          //저장된 entry가 있는 경우
+          $.each(entries, function (i, entry) {
+            var $tr = $("<tr>");
+            $tr
+              .append("<td>" + (i + 1) + "</td>")
+              .append("<td>" + entry.id + "</td>")
+              .append("<td>" + entry.pw + "</td>")
+              .append("<td>" + entry.nm + "</td>")
+              .append("<td>" + entry.email + "</td>")
+
+              .appendTo($table);
+          });
+        } else {
+          //저장된 entry가 없는 경우
+          $table.append(
+            "<tr><td colspan='5'>조회된 회원이 없습니다.</td></tr>"
+          );
+        }
+      }
+    </script>
+  </body>
+</html>

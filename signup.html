@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>signup</title>
+    <script src="./assets/js/jquery-3.6.0.js"></script>
+    <script>
+      if (window.localStorage) {
+        console.log("당신의 브라우저는 Web Storage를 사용할 수 있습니다.");
+      } else {
+        console.log(
+          "당신의 브라우저는 Web Storage를 사용할 수 없습니다. 최신 브라우저로 업데이트하세요."
+        );
+      }
+    </script>
+
+    <style>
+      body {
+        font-family: "Noto Sans KR", "Roboto", "Montserrat", sans-serif;
+      }
+      @font-face {
+        font-family: "S-CoreDream-2ExtraLight";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-2ExtraLight.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+      .h2 {
+        font-family: "Montserrat", sans-serif; /*font-family 속성은 선택된 요소에 우선 순위가 지정된 font family 이름과 generic family 이름을 지정*/
+        font-weight: bold;
+        color: #fff;
+        font-size: 7rem; /*최상위 태그(요소)에 지정한 것을 기준으로*/
+        text-align: end;
+      }
+
+      .h2_em {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        color: #fff;
+        font-size: 7rem;
+        font-style: normal;
+        -webkit-text-fill-color: transparent; /*글씨 안 투명하게*/
+        -webkit-text-stroke: 1px #fff; /*테두리는 흰색*/
+        display: block;
+        line-height: 0.3;
+        text-align: end;
+      }
+
+      p {
+        color: #fff;
+        margin-top: 30px;
+        font-size: 20px;
+        letter-spacing: 2px;
+        font-family: "S-CoreDream-2ExtraLight";
+        font-weight: bold;
+        color: #ffd600;
+      }
+
+      body {
+        background: url("./assets/img/bl_bg.png");
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(6, 200px);
+        grid-template-areas:
+          "banner banner banner"
+          ". login ."
+          "footer footer footer";
+        gap: 0px;
+        font-family: "Montserrat", sans-serif;
+        overflow-x: hidden;
+      }
+
+      .signup_form {
+        grid-area: login;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        height: 500px;
+      }
+      .signup_form_input {
+        position: relative;
+        right: 5px;
+      }
+      .signup_input_area {
+        width: 300px;
+        height: 50px;
+      }
+      .signup_input {
+        width: 100%;
+        padding: 20px 10px 10px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid #ffd600;
+        color: #ffd600;
+      }
+      .signup_form label {
+        position: relative;
+        bottom: 25px;
+        left: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffd600;
+        transition: all 0.2s ease;
+        font-family: "Montserrat", sans-serif;
+      }
+      .signup_form label.warning {
+        color: red;
+        animation: warning 0.3s ease;
+        animation-iteration-count: 3;
+      }
+      @keyframes warning {
+        0% {
+          transform: translateX(-8px);
+        }
+        25% {
+          transform: translateX(8px);
+        }
+        50% {
+          transform: translateX(-8px);
+        }
+        75% {
+          transform: translateX(8px);
+        }
+      }
+      .signup_input:focus + label,
+      .signup_input:valid + label {
+        position: relative;
+        bottom: 48px;
+        font-size: 13px;
+        color: #ffd600;
+      }
+
+      .signup_submit_area {
+        margin-top: 30px;
+      }
+      .signup_submit_area button {
+        width: 100%;
+        height: 50px;
+        background: transparent;
+        color: #fff;
+        font-size: 30px;
+        border: none;
+        border-radius: 0px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+      }
+
+      .signup_function {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .signup_function a {
+        font-size: 15px;
+        color: #fff;
+      }
+      footer {
+        position: relative;
+        top: 0px;
+      }
+
+      a.thar-one {
+        text-transform: uppercase;
+        text-align: center;
+        position: relative;
+        text-decoration: none;
+        display: block;
+        margin-top: 40px;
+        font-size: 14px;
+        letter-spacing: 2px;
+        font-weight: bold;
+        border: 1px dashed #fff;
+        padding: 15px;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+      }
+      a.thar-one:hover {
+        background-color: transparent;
+        text-shadow: none;
+      }
+      a.thar-one:hover:before {
+        bottom: 0%;
+        top: auto;
+        height: 100%;
+      }
+      a.thar-one:before {
+        display: block;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 0px;
+        width: 100%;
+        z-index: -1;
+        content: "";
+        background: #f7ca18;
+        transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+      }
+      #tbl entry {
+        width: 500px;
+        height: 500px;
+        border: 1px solid #ffd600;
+        border-collapse: collapse;
+        margin: 10px 0;
+        color: #ffd600;
+      }
+      #tbl-entry th,
+      #tbl-entry td {
+        border: 1px solid #ffd600;
+        padding: 5px;
+        color: #ffd600;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 회원가입 폼 -->
+
+    <div class="banner">
+      <h2 class="h2"><em class="h2_em">SIGN</em>UP</h2>
+    </div>
+
+    <div class="signup_form">
+      <form action="" name="memberFrm">
+        <div class="signup_form_input">
+          <div class="signup_input_area" id="input_area_memberId">
+            <!-- 아이디 #memberId -->
+            <input
+              class="signup_input"
+              type="text"
+              name="memberId"
+              id="memberId"
+              autocomplete="off"
+              required
+            />
+            <label for="memberId">USER ID</label>
+          </div>
+
+          <div class="signup_input_area" id="input_area_memberPwd">
+            <!-- 비밀번호 #memberPwd -->
+            <input
+              class="signup_input"
+              type="password"
+              name="memberPwd"
+              id="memberPwd"
+              autocomplete="off"
+              required
+            />
+            <label for="memberPwd">PASSWORD</label>
+          </div>
+          <div class="signup_input_area" id="input_area_memberName">
+            <!-- 이름 #memberName -->
+            <input
+              class="signup_input"
+              type="text"
+              name="memberName"
+              id="memberName"
+              autocomplete="off"
+              required
+            />
+            <label for="memberName">NAME</label>
+          </div>
+
+          <div class="signup_input_area" id="input_area_memberEmail">
+            <!-- Email #memberemail -->
+            <input
+              class="signup_input"
+              type="text"
+              name="memberEmail"
+              id="memberEmail"
+              autocomplete="off"
+              required
+            />
+            <label for="memberEmail">EMAIL</label>
+          </div>
+        </div>
+
+        <div class="signup_submit">
+          <div class="signup_submit_area">
+            <!-- 제출버튼 : #submit -->
+            <a class="thar-one hover">
+              <button type="button" id="submit" onclick="logsubmit()">
+                SIGNUP
+              </button>
+            </a>
+            <!-- 초기화버튼 : reset -->
+            <a class="thar-one hover"
+              ><button type="reset" id="reset">CLEAR</button></a
+            >
+          </div>
+        </div>
+
+        <div class="signup_function"></div>
+          <a href="memberlist.html" style="color: #ffd600"
+            >MEMBER LIST<br
+          /></a>
+        </div>
+      </form>
+    </div>
+
+    <footer></footer>
+
+    <script>
+      showEntries();
+
+      function logsubmit() {
+        var id = $("#memberId").val();
+        var pw = $("#memberPwd").val();
+        var nm = $("#memberName").val();
+        var email = $("#memberEmail").val();
+
+        //1.아이디검사
+        //첫글자는 반드시 영소문자로 이루어지고,
+        //숫자가 하나이상 포함되어야함.
+        //아이디의 길이는 4~12글자사이
+
+        console.log(id);
+        if (
+          localStorage.getItem(
+            $(/^[a-z]/.test(id) && /^.{4,12}$/.test(id) && /\d/.test(id))
+          ) == false
+        ) {
+          alert(
+            "첫 글자는 반드시 영소문자로 이뤄지고, 숫자가 하나이상 포함된 4~12글자 여야합니다."
+          );
+          return;
+        }
+
+        //2.비밀번호 확인 검사
+        //숫자/문자/특수문자/ 포함 형태의 8~15자리 이내의 암호 정규식
+        //전체길이검사 /^.{8,15}$/
+        //숫자하나 반드시 포함 /\d/
+        //영문자 반드시 포함 /[a-zA-Z]/
+        //특수문자 반드시 포함  /[\*!&]/
+        console.log(pw);
+        if (
+          localStorage.getItem(
+            $(
+              /^.{8,15}$/.test(pw) &&
+                /\d/.test(pw) &&
+                /[a-zA-Z]/.test(pw) &&
+                /[\@#$%^&*()]/
+            )
+          ) == false
+        ) {
+          alert("비밀번호는 8~15자리 숫자/문자/특수문자를 포함해야합니다..");
+          return;
+        }
+
+        //3.이름검사
+        //한글2글자 이상만 허용. [가-힣] 으로 해도되긴 하지만 자음만(ㄱㄴㄷㄹ)있으면 필터링이 안됨
+
+        console.log(nm);
+        if (/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/.test(nm) == false) {
+          alert("한글2글자이상 입력하세요.");
+          return;
+        }
+
+        //4.이메일 검사
+        // 4글자 이상(\w = [a-zA-Z0-9_], [\w-\.]) @가 나오고
+        // 1글자 이상(주소). 글자 가 1~3번 반복됨
+        console.log(email);
+        if (/^[\w]{4,}@[\w]+(\.[\w]+){1,3}$/.test(email) == false) {
+          alert("이메일 형식에 어긋납니다.");
+          return;
+        }
+
+        // localStorage 값 입력
+
+        var $frm = $(document.memberFrm);
+        var entry = {
+          id: id,
+          pw: pw,
+          nm: nm,
+          email: email,
+        };
+        console.log(entry);
+
+        //entries배열
+        var entries = JSON.parse(localStorage.getItem("entries")) || [];
+        entries.push(entry);
+
+        //json문자열로 변환
+        var jsonEntries = JSON.stringify(entries);
+
+        localStorage.setItem("entries", jsonEntries);
+        $(".inputArea").val("");
+        alert("회원가입이 완료 되었습니다.");
+        changeForm2();
+      }
+
+      /**
+       * localStorage.entries를 가져와서 table태그로 작성
+       */
+      function showEntries() {
+        //localStorage.entries || []
+        var entries = JSON.parse(localStorage.getItem("entries")) || [];
+
+        var $table = $("#tbl-entry");
+
+        //header 추가
+        $table.html(
+          "<tr><th>No</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>이메일</th></tr>"
+        );
+
+        if (entries.length) {
+          //저장된 entry가 있는 경우
+          $.each(entries, function (i, entry) {
+            var $tr = $("<tr>");
+            $tr
+              .append("<td>" + (i + 1) + "</td>")
+              .append("<td>" + entry.id + "</td>")
+              .append("<td>" + entry.pw + "</td>")
+              .append("<td>" + entry.nm + "</td>")
+              .append("<td>" + entry.email + "</td>")
+
+              .appendTo($table);
+          });
+        } else {
+          //저장된 entry가 없는 경우
+          $table.append(
+            "<tr><td colspan='5'>조회된 회원이 없습니다.</td></tr>"
+          );
+        }
+      }
+    </script>
+  </body>
+</html>

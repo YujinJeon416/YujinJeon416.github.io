@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script src="./assets/js/jquery-3.6.0.js"></script>
+
+    <style>
+      body {
+        font-family: "Noto Sans KR", "Roboto", "Montserrat", sans-serif;
+      }
+      @font-face {
+        font-family: "S-CoreDream-2ExtraLight";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-2ExtraLight.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+      .h2 {
+        font-family: "Montserrat", sans-serif; /*font-family 속성은 선택된 요소에 우선 순위가 지정된 font family 이름과 generic family 이름을 지정*/
+        font-weight: bold;
+        color: #fff;
+        font-size: 7rem; /*최상위 태그(요소)에 지정한 것을 기준으로*/
+        text-align: end;
+      }
+
+      .h2_em {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        color: #fff;
+        font-size: 7rem;
+        font-style: normal;
+        -webkit-text-fill-color: transparent; /*글씨 안 투명하게*/
+        -webkit-text-stroke: 1px #fff; /*테두리는 흰색*/
+        display: block;
+        line-height: 0.3;
+        text-align: end;
+      }
+
+      p {
+        color: #fff;
+        margin-top: 30px;
+        font-size: 20px;
+        letter-spacing: 2px;
+        font-family: "S-CoreDream-2ExtraLight";
+        font-weight: bold;
+        color: #ffd600;
+      }
+
+      body {
+        background: url("./assets/img/bl_bg.png");
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(6, 200px);
+        grid-template-areas:
+          "banner banner banner"
+          ". login ."
+          "footer footer footer";
+        gap: 0px;
+        font-family: "Montserrat", sans-serif;
+        overflow-x: hidden;
+      }
+
+      .login_form {
+        grid-area: login;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        height: 500px;
+      }
+      .login_form_input {
+        position: relative;
+        right: 5px;
+      }
+      .login_input_area {
+        width: 300px;
+        height: 50px;
+      }
+      .login_input {
+        width: 100%;
+        padding: 20px 10px 10px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid #ffd600;
+        color: #ffd600;
+      }
+      .login_form label {
+        position: relative;
+        bottom: 25px;
+        left: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffd600;
+        transition: all 0.2s ease;
+        font-family: "Montserrat", sans-serif;
+      }
+      .login_form label.warning {
+        color: red !important;
+        animation: warning 0.3s ease;
+        animation-iteration-count: 3;
+      }
+      @keyframes warning {
+        0% {
+          transform: translateX(-8px);
+        }
+        25% {
+          transform: translateX(8px);
+        }
+        50% {
+          transform: translateX(-8px);
+        }
+        75% {
+          transform: translateX(8px);
+        }
+      }
+      .login_input:focus + label,
+      .login_input:valid + label {
+        position: relative;
+        bottom: 48px;
+        font-size: 13px;
+        color: #ffd600;
+      }
+
+      .login_submit_area {
+        margin-top: 30px;
+      }
+      .login_submit_area button {
+        width: 100%;
+        height: 50px;
+        background: transparent;
+        color: #fff;
+        font-size: 30px;
+        border: none;
+        border-radius: 0px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+      }
+
+      .login_function {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .login_function a {
+        font-size: 15px;
+        color: #fff;
+      }
+      footer {
+        position: relative;
+        top: 0px;
+      }
+
+      a.thar-one {
+        text-transform: uppercase;
+        text-align: center;
+        position: relative;
+        text-decoration: none;
+        display: block;
+        margin-top: 40px;
+        font-size: 14px;
+        letter-spacing: 2px;
+        font-weight: bold;
+        border: 1px dashed #fff;
+        padding: 15px;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+      }
+      a.thar-one:hover {
+        background-color: transparent;
+        text-shadow: none;
+      }
+      a.thar-one:hover:before {
+        bottom: 0%;
+        top: auto;
+        height: 100%;
+      }
+      a.thar-one:before {
+        display: block;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 0px;
+        width: 100%;
+        z-index: -1;
+        content: "";
+        background: #f7ca18;
+        transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 로그인 폼 -->
+    <div class="banner">
+      <h2 class="h2"><em class="h2_em">LOG</em>IN</h2>
+    </div>
+
+    <div class="login_form">
+      <form action="" method="post">
+        <div class="login_form_input">
+          <div class="login_input_area" id="input_area_id">
+            <input
+              class="login_input"
+              type="text"
+              name="memberId"
+              id="memberId"
+              autocomplete="off"
+              required
+            />
+            <label for="id">USER ID</label>
+          </div>
+
+          <div class="login_input_area" id="input_area_pw">
+            <input
+              class="login_input"
+              type="password"
+              name="memberPwd"
+              id="memberPwd"
+              autocomplete="off"
+              required
+            />
+            <label for="pw">PASSWORD</label>
+          </div>
+        </div>
+
+        <div class="login_submit">
+          <div class="login_submit_area">
+            <a class="thar-one hover"
+              ><button type="button" value="Login" onclick="login();">
+                LOGIN
+              </button></a
+            >
+          </div>
+        </div>
+
+        <div class="login_function">
+          <a href="./signup.html" style="color: #ffd600"
+            >Create an Account<br
+          /></a>
+        </div>
+      </form>
+    </div>
+
+    <footer></footer>
+
+    <script>
+      /**
+       * 로그인
+       */
+
+      function login() {
+        var id = $("#memberId").val();
+        var pw = $("#memberPwd").val();
+        //localStorage에서 members객체배열을 불러오기
+        //JSON형태의 데이터를 파싱하여 객체배열로 가져온다.
+        var entries = JSON.parse(localStorage.getItem("entries"));
+        var isMembers = false;
+
+        //id pw판정
+        for (var i = 0; i < entries.length; i++) {
+          if (id == entries[i]["id"] && pw == entries[i]["pw"]) {
+            alert("로그인 성공!");
+            window.open("./memberlist.html", "");
+            isMembers = true;
+            break;
+          } else {
+            console.log("continue");
+            continue;
+          }
+        }
+        if (!isMembers) {
+          alert("아이디와 비밀번호가 일치하지 않습니다.");
+        }
+      }
+
+      // let memberId = $("#memberId");
+      // let memberPwd = $("#memberPwd");
+      // let submit = $("#submit");
+      //  $(submit).on("click", function () {
+
+      //if ($(memberId).val() == "") {
+      //  $(memberId).next("label").addClass("warning");
+      //  setTimeout(function () {
+      //   $("label").removeClass("Warning");
+      // }, 1000);
+      //} else if ($(memberPwd).val() == "") {
+      // $(memberPwd).next("label").addClass("warning");
+      // setTimeout(function () {
+      //  $("label").removeClass("Warning");
+      //}, 1000);
+      // }
+      // });
+    </script>
+  </body>
+</html>
